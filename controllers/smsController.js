@@ -1,13 +1,13 @@
-var database = require('../modals/smsModal');
+var database = require('../models/smsModel');
 
 exports.allSMS = function (req, res) {
-    res.json(database.allSMS());
+    database.allSMS(res);
 };
 
 exports.sendSMS = function (req, res) {
-    if (database.sendSMS(req.body.sms)) {
-        res.json({ sucess: true, msg: "success" });
-    } else {
-        res.status(400).json({ sucess: false, msg: "bad request" });
-    }
+    const { sms } = req.body;
+    const status = Math.random() > 0.5;
+    sms.status = status;
+
+    database.sendSMS(sms,res)
 };
