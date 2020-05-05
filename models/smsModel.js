@@ -1,8 +1,16 @@
 const mysql = require('mysql');
-require('dotenv');
 
 class Database {
     constructor() {
+
+        console.log({
+            host: process.env.DB_HOST,
+            port: process.env.DB_PORT,
+            database: process.env.DB_DATABASE,
+            user: process.env.DB_USER,
+            password: process.env.DB_PASS,
+        });
+        
         this.con = mysql.createConnection({
             host: process.env.DB_HOST,
             port: process.env.DB_PORT,
