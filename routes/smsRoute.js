@@ -1,9 +1,10 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-var smsController = require('../controllers/smsController');
+const smsController = require('../controllers/smsController');
 
 router.get('/sms', smsController.allSMS);
+router.get('/smspdf', smsController.downloadPDF);
 router.post('/sms/send', smsController.sendSMS);
 
 module.exports = router;

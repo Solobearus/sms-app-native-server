@@ -17,12 +17,12 @@ class Database {
         });
     }
 
-    allSMS(res) {
+    allSMS(cb) {
         const sql = `SELECT * FROM sms `;
 
         this.con.query(sql, function (err, result) {
             if (err) throw err;
-            res.json({ sucess: true, msg: "success", result });
+            cb(result)
         });
     }
 
