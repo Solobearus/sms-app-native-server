@@ -4,7 +4,6 @@
 
 - clone the repository
 - npm i
-- npm start 
 - create a new sql db named 'sms' with table named 'sms' the fields are:
 
 CREATE TABLE `sms` (
@@ -26,5 +25,6 @@ INSERT INTO `sms` (`id`, `fromNumber`, `toNumber`, `content`, `date`, `status`) 
 
 - change your credentials in '.env copy' to fit your mysql phpmyadmin server.
 - change '.env copy' to '.env'.
+- npm start 
 - have fun 🥂🍾
 
