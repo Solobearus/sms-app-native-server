@@ -6,7 +6,7 @@ exports.allSMS = function (req, res) {
 
 exports.sendSMS = function (req, res) {
     const { sms } = req.body;
-    const status = Math.random() > 0.5;
+    const status = Math.round(Math.random());
     sms.status = status;
 
     database.sendSMS(sms,res)
