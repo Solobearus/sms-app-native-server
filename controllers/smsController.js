@@ -27,7 +27,15 @@ exports.downloadPDF = function (req, res) {
                     table: {
                         body: [
                             ['ID', 'From', 'To', 'Content', 'Date', 'Status'],
-                            ...result.map(item => Object.values(item))
+                            ...result.map(item => Object.keys(item).map(key => {
+                                if (key === 'date') {
+                                    return new Date(+item[key]).toLocaleDateString('en-US')
+                                }
+                                if (key === 'status') {
+                                    return item[key] ? 'success' : 'failure'
+                                }
+                                return item[key];
+                            }))
                         ]
                     }
                 }
