@@ -6,13 +6,13 @@
 - npm i
 - create a new sql db named 'sms' with table named 'sms' the fields are:
 
-CREATE TABLE `sms` (
-  `id` int(11) NOT NULL,
-  `fromNumber` varchar(20) NOT NULL,
-  `toNumber` varchar(20) NOT NULL,
-  `content` text NOT NULL,
-  `date` text NOT NULL,
-  `status` tinyint(1) NOT NULL
+CREATE TABLE `sms` (  
+  `id` int(11) NOT NULL,  
+  `fromNumber` varchar(20) NOT NULL,  
+  `toNumber` varchar(20) NOT NULL,  
+  `content` text NOT NULL,  
+  `date` text NOT NULL,  
+  `status` tinyint(1) NOT NULL  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 - insert some mock data to play around with: 
