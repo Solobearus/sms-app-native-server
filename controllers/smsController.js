@@ -23,10 +23,11 @@ exports.downloadPDF = function (req, res) {
 
             const columns = ['ID', 'From', 'To', 'Content', 'Date', 'Status']
             const tableData = result.map(item => {
-                let { date, id, from, to, content, status } = item
-                date = new Date(+date).toLocaleDateString('en-US')
-                status = status ? 'success' : 'failure'
-                return [id, from, to, content, date, status]
+
+                let { id, fromNumber, toNumber, content, date, status } = item;
+                date = new Date(+date).toLocaleDateString('en-US');
+                status = status ? 'success' : 'failure';
+                return [id, fromNumber, toNumber, content, date, status];
             })
 
             const docDefinition = {
