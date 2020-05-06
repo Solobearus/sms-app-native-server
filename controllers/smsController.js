@@ -17,38 +17,36 @@ exports.sendSMS = function (req, res) {
 };
 
 exports.downloadPDF = function (req, res) {
+    database.getAllSMS()
+        .then((result) => {
 
-    const cb = (result) => {
+            const columns = ['ID', 'From', 'To', 'Content', 'Date', 'Status']
+            const tableData = result.map(item => {
+                let { date, id, from, to, content, status } = item
+                date = new Date(+date).toLocaleDateString('en-US')
+                status = status ? 'success' : 'failure'
+                return [id, from, to, content, date, status]
+            })
 
-        const columns = ['ID', 'From', 'To', 'Content', 'Date', 'Status']
-        const tableData = result.map(item => {
-            let { date, id, from, to, content, status } = item
-            date = new Date(+date).toLocaleDateString('en-US')
-            status = status ? 'success' : 'failure'
-            return [id, from, to, content, date, status]
-        })
-
-        const docDefinition = {
-            content: [
-                {
-                    style: 'tableExample',
-                    table: {
-                        body: [
-                            columns,
-                            ...tableData
-                        ]
+            const docDefinition = {
+                content: [
+                    {
+                        style: 'tableExample',
+                        table: {
+                            body: [
+                                columns,
+                                ...tableData
+                            ]
+                        }
                     }
-                }
-            ]
-        }
+                ]
+            }
 
-        generatePdf(docDefinition, (response) => {
-            res.setHeader('Content-Type', 'application/pdf');
-            res.send(response); // Buffer data
-        });
-    }
-
-    database.allSMS(cb);
+            generatePdf(docDefinition, (response) => {
+                res.setHeader('Content-Type', 'application/pdf');
+                res.send(response); // Buffer data
+            });
+        })
 };
 
 function generatePdf(docDefinition, callback) {
