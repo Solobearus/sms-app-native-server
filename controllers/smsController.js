@@ -1,10 +1,9 @@
-const database = require('../models/smsModel');
-const PDFDocument = require('pdfkit');
+const smsModal = require('../models/smsModel');
 const pdfMakePrinter = require('pdfmake/src/printer');
 
 exports.getAllSMS = function (req, res) {
-    database.getAllSMS()
-        .then((result) => res.json({ sucess: true, msg: "success", result }))
+    smsModal.getAllSMS()
+        .then(result => res.json({ sucess: true, msg: "success", result }))
         .catch(err => res.status(500).json({ sucess: false, msg: err }))
 };
 
@@ -13,14 +12,14 @@ exports.sendSMS = function (req, res) {
     const status = Math.round(Math.random());
     sms.status = status;
 
-    database.sendSMS(sms)
+    smsModal.sendSMS(sms)
         .then(result => res.json({ sucess: true, msg: "success", result }))
         .catch(err => res.status(500).json({ sucess: false, msg: err }))
 };
 
 exports.downloadPDF = function (req, res) {
-    database.getAllSMS()
-        .then((result) => {
+    smsModal.getAllSMS()
+        .then(result => {
 
             const columns = ['ID', 'From', 'To', 'Content', 'Date', 'Status']
             const tableData = result.map(item => {
@@ -46,9 +45,10 @@ exports.downloadPDF = function (req, res) {
 
             generatePdf(docDefinition, (response) => {
                 res.setHeader('Content-Type', 'application/pdf');
-                res.send(response); // Buffer data
+                res.send(response);
             });
         })
+        .catch(err => res.status(500).json({ sucess: false, msg: err }))
 };
 
 function generatePdf(docDefinition, callback) {

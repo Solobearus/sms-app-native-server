@@ -1,6 +1,6 @@
 const mysql = require('mysql');
 
-class Database {
+class smsModal {
     constructor() {
 
         this.con = mysql.createConnection({
@@ -35,20 +35,22 @@ class Database {
 
             if (this.isSMSValid) {
                 const sql = `
-                INSERT INTO sms (fromNumber, toNumber,content,date,status) 
-                VALUES ('${sms.from}', '${sms.to}', '${sms.content}', '${sms.date}', '${sms.status}')
-            `;
+                    INSERT INTO sms (fromNumber, toNumber,content,date,status) 
+                    VALUES ('${sms.from}', '${sms.to}', '${sms.content}', '${sms.date}', '${sms.status}')
+                `;
 
                 this.con.query(sql, function (err, result) {
-                    if (err) throw err;
+                    if (err) {
+                        reject(err);
+                    }
                     console.log("1 record inserted");
                     sms.id = result.insertId;
-                    resolve({ sucess: true, msg: "success", sms })
+                    resolve(sms)
                 });
             } else {
-                reject({ sucess: false, msg: "bad request" })
+                reject(err)
             }
-        }
+        })
     }
 
     isSMSValid(sms) {
@@ -65,4 +67,4 @@ class Database {
     }
 }
 
-module.exports = new Database();
+module.exports = new smsModal();
