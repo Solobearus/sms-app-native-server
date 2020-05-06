@@ -30,27 +30,38 @@ class Database {
         })
     }
 
-    sendSMS(sms, res) {
+    sendSMS(sms) {
+        return new Promise((resolve, reject) => {
 
-        if (this.validateSms) {
-            const sql = `
+            if (this.isSMSValid) {
+                const sql = `
                 INSERT INTO sms (fromNumber, toNumber,content,date,status) 
                 VALUES ('${sms.from}', '${sms.to}', '${sms.content}', '${sms.date}', '${sms.status}')
             `;
 
-            this.con.query(sql, function (err, result) {
-                if (err) throw err;
-                console.log("1 record inserted");
-                sms.id = result.insertId;
-                res.json({ sucess: true, msg: "success", sms });
-            });
-        } else {
-            res.status(400).json({ sucess: false, msg: "bad request" });
+                this.con.query(sql, function (err, result) {
+                    if (err) throw err;
+                    console.log("1 record inserted");
+                    sms.id = result.insertId;
+                    resolve({ sucess: true, msg: "success", sms })
+                });
+            } else {
+                reject({ sucess: false, msg: "bad request" })
+            }
         }
     }
 
-    validateSms(sms) {
-        return true;
+    isSMSValid(sms) {
+        if (!sms.from.match(/^05\d([-]{0,1})\d{7}$/)) {
+            return { valid: false, msg: 'phone from is not valid' };
+        }
+        if (!sms.to.match(/^05\d([-]{0,1})\d{7}$/)) {
+            return { valid: false, msg: 'phone to is not valid' };
+        }
+        if (sms.content === '') {
+            return { valid: false, msg: 'content is not valid' };
+        }
+        return { valid: true };
     }
 }
 

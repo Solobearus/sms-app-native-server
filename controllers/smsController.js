@@ -13,7 +13,9 @@ exports.sendSMS = function (req, res) {
     const status = Math.round(Math.random());
     sms.status = status;
 
-    database.sendSMS(sms, res)
+    database.sendSMS(sms)
+        .then(result => res.json({ sucess: true, msg: "success", result }))
+        .catch(err => res.status(500).json({ sucess: false, msg: err }))
 };
 
 exports.downloadPDF = function (req, res) {
