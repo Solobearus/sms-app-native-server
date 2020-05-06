@@ -5,6 +5,7 @@ const pdfMakePrinter = require('pdfmake/src/printer');
 exports.getAllSMS = function (req, res) {
     database.getAllSMS()
         .then((result) => res.json({ sucess: true, msg: "success", result }))
+        .catch(err => res.status(500).json({ sucess: false, msg: err }))
 };
 
 exports.sendSMS = function (req, res) {
