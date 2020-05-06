@@ -2,9 +2,9 @@ const database = require('../models/smsModel');
 const PDFDocument = require('pdfkit');
 const pdfMakePrinter = require('pdfmake/src/printer');
 
-exports.allSMS = function (req, res) {
-    const cb = (result) => res.json({ sucess: true, msg: "success", result });
-    database.allSMS(cb);
+exports.getAllSMS = function (req, res) {
+    database.getAllSMS()
+        .then((result) => res.json({ sucess: true, msg: "success", result }))
 };
 
 exports.sendSMS = function (req, res) {
@@ -18,7 +18,7 @@ exports.sendSMS = function (req, res) {
 exports.downloadPDF = function (req, res) {
 
     const cb = (result) => {
-        
+
         const columns = ['ID', 'From', 'To', 'Content', 'Date', 'Status']
         const tableData = result.map(item => {
             let { date, id, from, to, content, status } = item

@@ -2,7 +2,7 @@ const mysql = require('mysql');
 
 class Database {
     constructor() {
-        
+
         this.con = mysql.createConnection({
             host: process.env.DB_HOST,
             port: process.env.DB_PORT,
@@ -17,13 +17,17 @@ class Database {
         });
     }
 
-    allSMS(cb) {
-        const sql = `SELECT * FROM sms `;
+    getAllSMS() {
+        const sql = `SELECT * FROM sms `
 
-        this.con.query(sql, function (err, result) {
-            if (err) throw err;
-            cb(result)
-        });
+        return new Promise((resolve, reject) => {
+            this.con.query(sql, function (err, result) {
+                if (err) {
+                    reject(err)
+                }
+                resolve(result)
+            })
+        })
     }
 
     sendSMS(sms, res) {
